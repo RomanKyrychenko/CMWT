@@ -45,7 +45,7 @@ source("dr_weekend.R")
 Найбільше охоплення аудиторії за день серед новинних каналів `r if_else(all1[1] == all1[2],"також ","")`у **«`r all1[2]`»** (`r all1[3]` млн).
 
 ```{r ds1, echo = FALSE, out.width='100%'}
-knitr::include_graphics("plot_all1.pdf")
+knitr::include_graphics("workfiles/tv_channels/plots/plot_all1.pdf")
 ```
 
 \newpage
@@ -59,7 +59,7 @@ knitr::include_graphics("plot_all1.pdf")
 Найбільше охоплення аудиторії за день серед новинних каналів `r if_else(kyiv1[1] == kyiv1[2],"також ","")`у **«`r kyiv1[2]`»** (`r as.numeric(gsub(",",".",kyiv1[3]))*1000` тис.).
 
 ```{r ds21, echo = FALSE, out.width='100%'}
-knitr::include_graphics("plot_kyiv1.pdf")
+knitr::include_graphics("workfiles/tv_channels/plots/plot_kyiv1.pdf")
 ```
 
 \newpage
@@ -73,7 +73,7 @@ knitr::include_graphics("plot_kyiv1.pdf")
 Найбільше охоплення аудиторії за день серед новинних каналів `r if_else(all2[1] == all2[2],"також ","")`у **«`r all2[2]`»** (`r all2[3]` млн).
 
 ```{r ds2, echo = FALSE, out.width='100%'}
-knitr::include_graphics("plot_all2.pdf")
+knitr::include_graphics("workfiles/tv_channels/plots/plot_all2.pdf")
 ```
 
 \newpage
@@ -87,7 +87,7 @@ knitr::include_graphics("plot_all2.pdf")
 Найбільше охоплення аудиторії за день серед новинних каналів `r if_else(kyiv2[1] == kyiv2[2],"також ","")`у **«`r kyiv2[2]`»** (`r as.numeric(gsub(",",".",kyiv2[3]))*1000` тис.).
 
 ```{r ds22, echo = FALSE, out.width='100%'}
-knitr::include_graphics("plot_kyiv2.pdf")
+knitr::include_graphics("workfiles/tv_channels/plots/plot_kyiv2.pdf")
 ```
 
 \newpage
@@ -101,7 +101,7 @@ knitr::include_graphics("plot_kyiv2.pdf")
 Найбільше охоплення аудиторії за день серед новинних каналів `r if_else(all3[1] == all3[2],"також ","")`у **«`r all3[2]`»** (`r all3[3]` млн).
 
 ```{r ds3, echo = FALSE, out.width='100%'}
-knitr::include_graphics("plot_all3.pdf")
+knitr::include_graphics("workfiles/tv_channels/plots/plot_all3.pdf")
 ```
 
 \newpage
@@ -115,7 +115,7 @@ knitr::include_graphics("plot_all3.pdf")
 Найбільше охоплення аудиторії за день серед новинних каналів `r if_else(kyiv3[1] == kyiv3[2],"також ","")`у **«`r kyiv3[2]`»** (`r as.numeric(gsub(",",".",kyiv3[3]))*1000` тис.).
 
 ```{r ds23, echo = FALSE, out.width='100%'}
-knitr::include_graphics("plot_kyiv3.pdf")
+knitr::include_graphics("workfiles/tv_channels/plots/plot_kyiv3.pdf")
 ```
 
 \newpage
@@ -129,7 +129,7 @@ knitr::include_graphics("plot_kyiv3.pdf")
 Найбільше охоплення аудиторії за день серед новинних каналів `r if_else(all4[1] == all4[2],"також ","")`у **«`r all4[2]`»** (`r all4[3]` млн).
 
 ```{r ds4, echo = FALSE, out.width='100%'}
-knitr::include_graphics("plot_all4.pdf")
+knitr::include_graphics("workfiles/tv_channels/plots/plot_all4.pdf")
 ```
 
 \newpage
@@ -143,5 +143,5 @@ knitr::include_graphics("plot_all4.pdf")
 Найбільше охоплення аудиторії за день серед новинних каналів `r if_else(kyiv4[1] == kyiv4[2],"також ","")`у **«`r kyiv4[2]`»** (`r as.numeric(gsub(",",".",kyiv4[3]))*1000` тис.).
 
 ```{r ds24, echo = FALSE, out.width='100%'}
-knitr::include_graphics("plot_kyiv4.pdf")
+knitr::include_graphics("workfiles/tv_channels/plots/plot_kyiv4.pdf")
 ```

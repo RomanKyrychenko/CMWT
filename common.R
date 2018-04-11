@@ -1,6 +1,6 @@
 invisible(Sys.setlocale(locale = "UK_ua"))
 
-setwd("~/context/")
+setwd("~/CMWT")
 
 options(warn = -1)
 
@@ -28,7 +28,7 @@ cleanFun <- function(htmlString) str_remove_all(htmlString, "<.*?>")
 options("openxlsx.dateFormat" = "dd.mm.yyyy")
 options("openxlsx.datetimeFormat" = "hh:mm:ss")
 
-kods <- readr::read_rds("~/context/kods.rds")
+kods <- readr::read_rds("~/CMWT/kods.rds")
 
 info <- function(filenames) {
   files <- filenames %>% str_remove_all("\\r") %>% str_replace_all("\\n", " ") %>% strsplit(" ", fixed = TRUE) %>% unlist()

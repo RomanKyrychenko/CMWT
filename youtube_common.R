@@ -1,6 +1,6 @@
-setwd("~/")
+setwd("~/CMWT/")
 
-Sys.setlocale(locale = "UK_ua")
+invisible(Sys.setlocale(locale = "UK_ua"))
 
 options("openxlsx.dateFormat" = "dd.mm.yyyy")
 options("openxlsx.datetimeFormat" = "dd.mm.yyyy")

@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 
-source("~/context/common.R")
-source("~/context/topic.R")
+source("~/CMWT/common.R")
+source("topic.R")
 suppressPackageStartupMessages(library(gmailr))
 
 "Usage:\n  zaporozhets.R [-s <start> -e <end> -evt <evt>]\n\nOptions:\n  -s Start time [default: Sys.Date()-1]\n  -e End time [default: Sys.Date()-1]\n  -evt Make evt file [default: 1]\n\n]" -> doc

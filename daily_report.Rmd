@@ -24,7 +24,6 @@ params:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-#source("daily_report.R")
 ```
 ##Показники ТБ	- перегляду `r format(day, "%d.%m.%Y")`
 
@@ -34,7 +33,7 @@ knitr::opts_chunk$set(echo = TRUE)
 Найбільше охоплення аудиторії за день серед новинних каналів `r if_else(all[1] == all[2],"також ","")`у **«`r all[2]`»** (`r all[3]` млн).
 
 ```{r ds, echo = FALSE, out.width='100%'}
-knitr::include_graphics("plot_all.pdf")
+knitr::include_graphics("workfiles/tv_channels/plots/plot_all.pdf")
 ```
 
 \newpage
@@ -47,5 +46,5 @@ knitr::include_graphics("plot_all.pdf")
 Найбільше охоплення аудиторії за день серед новинних каналів `r if_else(kyiv[1] == kyiv[2],"також ","")`у **«`r kyiv[2]`»** (`r as.numeric(gsub(",",".",kyiv[3]))*1000` тис.).
 
 ```{r ds2, echo = FALSE, out.width='100%'}
-knitr::include_graphics("plot_kyiv.pdf")
+knitr::include_graphics("workfiles/tv_channels/plots/plot_kyiv.pdf")
 ```

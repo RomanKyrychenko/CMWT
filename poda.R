@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 
-source("~/context/common.R")
-source("~/context/topic.R")
+source("~/CMWT/common.R")
+source("topic.R")
 suppressPackageStartupMessages(library(gmailr))
 #Sys.sleep(3600)
 

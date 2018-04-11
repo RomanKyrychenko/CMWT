@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-source("~/context/common.R")
+source("~/CMWT/common.R")
 suppressPackageStartupMessages(require(ggplot2))
 
 nc <- c("CHANNEL 112", "NEWS ONE", "CHANNEL Z(ZIK)", "PRIAMYI", "5 CHANNEL", "24 CHANNEL", "ESPRESO TV")
@@ -10,7 +10,6 @@ cd <- xlsx::read.xlsx(pt, sheetIndex = 1) %>% as_tibble() %>% mutate_all(as.char
 
 ptt <- fs::dir_info("~/Downloads/") %>% arrange(desc(modification_time)) %>% filter(str_detect(path, "Каналы_day_ср") & !str_detect(path, "\\$")) %>% pull(path) %>% first()
 cdt <- xlsx::read.xlsx(ptt, sheetIndex = 1) %>% as_tibble() %>% mutate_all(as.character)
-
 
 day <- cd[2, 1] %>% dmy
 
@@ -54,7 +53,7 @@ create_plot <- function(all, name = "all") {
                    rch == "24 CHANNEL" ~ "24 канал",
                    rch == "ESPRESO TV" ~ "Еспресо ТВ")
   
-  cairo_pdf(paste0("plot_", name, ".pdf"), width = 11, height = 11)
+  cairo_pdf(paste0("workfiles/tv_channels/plots/plot_", name, ".pdf"), width = 11, height = 11)
   print(ggplot() + 
           geom_rect(aes(xmin = 0, xmax = 10.2, ymin = max(l)-1, ymax = max(l)+2), fill = "#DCE6F1", color = NA) +
           geom_text(aes(x=5.1,y=max(l)+1.5, label = "Аудиторія 18+, вся Україна"), fontface = "bold", family = "PT Sans") +
@@ -69,12 +68,12 @@ create_plot <- function(all, name = "all") {
           geom_text(aes(x = 9.7, y = max(l) - .5, label = "Рейтинг, %"), family = "PT Sans", size = 3) +
           geom_text(aes(x = 5.5, y = max(l)  + .5, label = "Day"), family = "PT Sans", size = 3) +
           geom_text(aes(x = 8.7, y = max(l)  + .5, label = "Prime"), family = "PT Sans", size = 3) +
-          geom_linerange(aes(x = r, r, ymin = rep(0, 10), ymax = rep(max(l), 10)), linetype = "dotted", size = 0.1) +
+          geom_linerange(aes(x = r, ymin = rep(0, 10), ymax = rep(max(l), 10)), linetype = "dotted", size = 0.1) +
           geom_segment(aes(x = rep(0,length(l)-1),xend = rep(10.2, length(l)-1),y = l[-length(l)], yend = l[-length(l)]), linetype = "dotted", size = 0.1) + 
           geom_segment(aes(x = r[4], xend = r[10], y = max(l), yend = max(l)), linetype = "dotted", size = 0.1) +
           geom_segment(aes(x = r[1], xend = r[10], y = max(l)+1, yend = max(l)+1), linetype = "dotted", size = 0.1) +
-          geom_linerange(aes(x = r[c(1:4, 7, 10)], r[c(1:4, 7, 10)], ymin = rep(max(l), 6), ymax = rep(max(l)+1, 6)), linetype = "dotted", size = 0.1) +
-          geom_linerange(aes(x = r[c(1, 10)], r[c(1, 10)], ymin = rep(max(l)+1, 2), ymax = rep(max(l)+2, 2)), linetype = "dotted", size = 0.1) +
+          geom_linerange(aes(x = r[c(1:4, 7, 10)], ymin = rep(max(l), 6), ymax = rep(max(l)+1, 6)), linetype = "dotted", size = 0.1) +
+          geom_linerange(aes(x = r[c(1, 10)], ymin = rep(max(l)+1, 2), ymax = rep(max(l)+2, 2)), linetype = "dotted", size = 0.1) +
           geom_segment(aes(x = r[1], xend = r[10], y = max(l)+2, yend = max(l)+2), linetype = "dotted", size = 0.1) +
           geom_text(aes(x = 0.1, y = (l-0.5)[-c(1,length(l))], label = day %>% format("%d.%m.%Y")), hjust = 0, family = "PT Sans", family = "PT Sans") +
           geom_text(aes(x = 1.1, y = (l-0.5)[-c(1,length(l))], label = all %>% pull(1) %>% rev), hjust = 0, family = "PT Sans", family = "PT Sans") +
@@ -101,4 +100,4 @@ create_plot <- function(all, name = "all") {
 all <- create_plot(all)
 kyiv <- create_plot(kyiv, "kyiv")
 
-rmarkdown::render('~/context/dayli_report.Rmd', output_file = paste0('TV channels ', format(Sys.Date() - 1, "%d.%m.%y"), '.pdf'))
+rmarkdown::render('daily_report.Rmd', output_file = paste0('workfiles/tv_channels/TV channels ', format(Sys.Date() - 1, "%d.%m.%y"), '.pdf'))

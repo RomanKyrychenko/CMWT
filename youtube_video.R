@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-source("~/context/youtube_common.R")
+source("~/CMWT/youtube_common.R")
 
 result_date <- Sys.Date()
 
@@ -37,11 +37,13 @@ rs <- purrr::map_dfr(test, this_is) %>% mutate(
   url = paste0("www.youtube.com/watch?v=", substr(gsub(".*v=", "", dir), 1, 11))
 ) %>% left_join(vds, by = "url") %>% select(url, channelTitle, start, end, contentDetails.videoPublishedAt, title, viewCount, likeCount, dislikeCount, favoriteCount, quality)
 
+xlname <- paste0("~/stepanov_youtube/stepanov_youtube_", result_date, ".xlsx")
+
 wb <- openxlsx::createWorkbook()
 openxlsx::addWorksheet(wb, "youtube")
 openxlsx::writeDataTable(wb, "youtube", rs, withFilter = F)
 openxlsx::setColWidths(wb, "youtube", c(1, 2, 5, 6), widths = 35, ignoreMergedCells = FALSE)
-openxlsx::saveWorkbook(wb, file = paste0("~/stepanov_youtube/Степанов_ютуб_", result_date, ".xlsx"), overwrite = T)
+openxlsx::saveWorkbook(wb, file = xlname, overwrite = T)
 
 suppressPackageStartupMessages(library(gmailr))
 
@@ -54,8 +56,8 @@ a <- capture.output({
     Subject = paste0("Stepanov youtube: ", result_date),
     body = paste0("Дані за ", result_date)
   ) %>%
-    attach_file(paste0("~/stepanov_youtube/Степанов_ютуб_", result_date, ".xlsx")) %>%
-    attach_file(paste0("~/stepanov_youtube/Степанов_ютуб_", result_date, ".xlsx"))
+    attach_file(xlname) %>%
+    attach_file(xlname)
   
   send_message(test_email)
 })
