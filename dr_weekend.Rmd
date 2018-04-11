@@ -1,0 +1,147 @@
+---
+title: ''
+mainfont: PT Sans
+fontsize: 11pt
+linestretch: 1
+classoption: a4paper
+geometry:
+  top=1cm,
+  left=1cm,
+  right=1cm,
+  bottom=1.5cm
+header-includes:
+  - \usepackage[utf8]{inputenc}
+  - \usepackage[x11names]{xcolor}
+  - \usepackage{lipsum}
+  - \usepackage{fancyhdr}
+  - \fancyfoot[R]{\thepage}
+output: 
+  pdf_document:
+    latex_engine: xelatex
+    keep_tex: true
+params:
+  data: NA
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("dr_weekend.R")
+```
+
+##ТБ-показники каналів по аудиторіям «18+ вся Україна», «18+ Київ» за 06-09.04.2018
+
+\noindent\textcolor{PaleGreen3}{\rule{19cm}{0.8mm}}
+
+Традиційний лідер по рейтингу і частці серед загальної аудиторії **18+** − **«112 канал»**. Він лідирував усі чотири дні за цим
+показником, а також за кількістю охоплень.
+
+Телеканал **«News One»** також традиційно на перших позиціях серед новинних каналів по **Києву**, адже за рейтингом і часткою лише усі чотири дні лідирував у цій аудиторії. За рівнем охоплення **«News One»** мав першість у неділю та понеділок по **«Києву 18+»**, у п'ятницю та суботу лідерство за цим показником тримав **«112 канал»**.
+
+##Показники ТБ	- перегляду `r format(day[1], "%d.%m.%Y")`
+
+\noindent\textcolor{PaleGreen3}{\rule{19cm}{0.8mm}}
+
+Серед новинних каналів, по аудиторії **«18+ вся Україна»** найбільша частка та рейтинг аудиторії були в **«`r all1[1]`»**. 
+Найбільше охоплення аудиторії за день серед новинних каналів `r if_else(all1[1] == all1[2],"також ","")`у **«`r all1[2]`»** (`r all1[3]` млн).
+
+```{r ds1, echo = FALSE, out.width='100%'}
+knitr::include_graphics("plot_all1.pdf")
+```
+
+\newpage
+\pagebreak
+
+##Показники ТБ	- перегляду `r format(day[1], "%d.%m.%Y")`
+
+\noindent\textcolor{PaleGreen3}{\rule{19cm}{0.8mm}}
+
+Серед новинних каналів, по аудиторії **«Київ 18+»** найбільша частка аудиторії та рейтинг у каналу **«`r kyiv1[1]`»**.
+Найбільше охоплення аудиторії за день серед новинних каналів `r if_else(kyiv1[1] == kyiv1[2],"також ","")`у **«`r kyiv1[2]`»** (`r as.numeric(gsub(",",".",kyiv1[3]))*1000` тис.).
+
+```{r ds21, echo = FALSE, out.width='100%'}
+knitr::include_graphics("plot_kyiv1.pdf")
+```
+
+\newpage
+\pagebreak
+
+##Показники ТБ	- перегляду `r format(day[2], "%d.%m.%Y")`
+
+\noindent\textcolor{PaleGreen3}{\rule{19cm}{0.8mm}}
+
+Серед новинних каналів, по аудиторії **«18+ вся Україна»** найбільша частка та рейтинг аудиторії були в **«`r all2[1]`»**. 
+Найбільше охоплення аудиторії за день серед новинних каналів `r if_else(all2[1] == all2[2],"також ","")`у **«`r all2[2]`»** (`r all2[3]` млн).
+
+```{r ds2, echo = FALSE, out.width='100%'}
+knitr::include_graphics("plot_all2.pdf")
+```
+
+\newpage
+\pagebreak
+
+##Показники ТБ	- перегляду `r format(day[2], "%d.%m.%Y")`
+
+\noindent\textcolor{PaleGreen3}{\rule{19cm}{0.8mm}}
+
+Серед новинних каналів, по аудиторії **«Київ 18+»** найбільша частка аудиторії та рейтинг у каналу **«`r kyiv2[1]`»**.
+Найбільше охоплення аудиторії за день серед новинних каналів `r if_else(kyiv2[1] == kyiv2[2],"також ","")`у **«`r kyiv2[2]`»** (`r as.numeric(gsub(",",".",kyiv2[3]))*1000` тис.).
+
+```{r ds22, echo = FALSE, out.width='100%'}
+knitr::include_graphics("plot_kyiv2.pdf")
+```
+
+\newpage
+\pagebreak
+
+##Показники ТБ	- перегляду `r format(day[3], "%d.%m.%Y")`
+
+\noindent\textcolor{PaleGreen3}{\rule{19cm}{0.8mm}}
+
+Серед новинних каналів, по аудиторії **«18+ вся Україна»** найбільша частка та рейтинг аудиторії були в **«`r all3[1]`»**. 
+Найбільше охоплення аудиторії за день серед новинних каналів `r if_else(all3[1] == all3[2],"також ","")`у **«`r all3[2]`»** (`r all3[3]` млн).
+
+```{r ds3, echo = FALSE, out.width='100%'}
+knitr::include_graphics("plot_all3.pdf")
+```
+
+\newpage
+\pagebreak
+
+##Показники ТБ	- перегляду `r format(day[3], "%d.%m.%Y")`
+
+\noindent\textcolor{PaleGreen3}{\rule{19cm}{0.8mm}}
+
+Серед новинних каналів, по аудиторії **«Київ 18+»** найбільша частка аудиторії та рейтинг у каналу **«`r kyiv3[1]`»**.
+Найбільше охоплення аудиторії за день серед новинних каналів `r if_else(kyiv3[1] == kyiv3[2],"також ","")`у **«`r kyiv3[2]`»** (`r as.numeric(gsub(",",".",kyiv3[3]))*1000` тис.).
+
+```{r ds23, echo = FALSE, out.width='100%'}
+knitr::include_graphics("plot_kyiv3.pdf")
+```
+
+\newpage
+\pagebreak
+
+##Показники ТБ	- перегляду `r format(day[4], "%d.%m.%Y")`
+
+\noindent\textcolor{PaleGreen3}{\rule{19cm}{0.8mm}}
+
+Серед новинних каналів, по аудиторії **«18+ вся Україна»** найбільша частка та рейтинг аудиторії були в **«`r all4[1]`»**. 
+Найбільше охоплення аудиторії за день серед новинних каналів `r if_else(all4[1] == all4[2],"також ","")`у **«`r all4[2]`»** (`r all4[3]` млн).
+
+```{r ds4, echo = FALSE, out.width='100%'}
+knitr::include_graphics("plot_all4.pdf")
+```
+
+\newpage
+\pagebreak
+
+##Показники ТБ	- перегляду `r format(day[4], "%d.%m.%Y")`
+
+\noindent\textcolor{PaleGreen3}{\rule{19cm}{0.8mm}}
+
+Серед новинних каналів, по аудиторії **«Київ 18+»** найбільша частка аудиторії та рейтинг у каналу **«`r kyiv4[1]`»**.
+Найбільше охоплення аудиторії за день серед новинних каналів `r if_else(kyiv4[1] == kyiv4[2],"також ","")`у **«`r kyiv4[2]`»** (`r as.numeric(gsub(",",".",kyiv4[3]))*1000` тис.).
+
+```{r ds24, echo = FALSE, out.width='100%'}
+knitr::include_graphics("plot_kyiv4.pdf")
+```
