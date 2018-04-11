@@ -2,17 +2,7 @@
 
 source("~/context/common.R")
 
-#'Usage:
-#pp_tv_weekly.R [-f <file>]
-#
-#Options:
-#-f file
-#
-#]' -> doc
-#
-#opts <- docopt(doc)
-
-w <- list.files("~/context/workfile/pp_tv/final/", pattern = paste0("w",week(Sys.Date())-1), full.names = T)
+w <- list.files("workfiles/pp_tv/final/", pattern = paste0("w",week(Sys.Date())-1), full.names = T)
 
 w <- w[!str_detect(w, "\\$")]
 
@@ -54,7 +44,7 @@ files <- files %>%
 files$Дата <- as.Date(files$Дата)
 #writexl::write_xlsx(files, "pp_tv_week4.xlsx")
 
-fileXls <- paste0("~/context/workfile/pp_tv/weekly/pp_tv_w",median(week(files$Дата)),".xlsx")
+fileXls <- paste0("workfiles/pp_tv/weekly/pp_tv_w",median(week(files$Дата)),".xlsx")
 
 options("openxlsx.dateFormat" = "dd.mm.yyyy")
 options("openxlsx.datetimeFormat" = "hh:mm:ss")

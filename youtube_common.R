@@ -100,16 +100,3 @@ this_is <- function(new_face, face = "know/Stepanov.jpg") {
 }
 
 this_is <- compiler::cmpfun(this_is)
-
-#Идентификатор клиента	
-#780645875644-m1kk5tro7vs3mhuum8m4ulcfo1vfvl5d.apps.googleusercontent.com
-#Секрет клиента	
-#XJhIz5zcNTnY7iaBLOmX6JiM
-#
-#Основные одесские каналы на Youtube, которые надо просматривать на предмет М.Степанова:
-#7 канал: https://www.youtube.com/channel/UCwH-Z6mFREUAE5hdAGXYsZw/videos
-#Южная волна: https://www.youtube.com/channel/UCMZmUbNzLkAeFDFOCEbY8ng/videos
-#Думская: https://www.youtube.com/channel/UCOCwYne_F0SeOaIuX6nmT1g/videos
-#Репортер: https://www.youtube.com/channel/UCwB_ZIlOTdoFg2tu5fSuv_Q/videos
-#Медиа Информ: https://www.youtube.com/channel/UCS7g49TiDIa5RGdf_-u5oKQ/videos
-#Академия: https://www.youtube.com/channel/UCWL8vLJenNk5u2T6fv1qDww/videos
