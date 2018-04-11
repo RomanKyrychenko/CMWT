@@ -22,7 +22,7 @@ if (!is.POSIXct(dat$`Start time`)) {
 }
 
 if ("Канал для свода" %in% names(dat)) {
-  programs <- readr::read_rds(paste0("~/context/programs_", input_dates[1], ".rds")) %>% left_join(kods, by = c("Источник" = "news_source"))
+  programs <- readr::read_rds(paste0("~/CMWT/workfiles/programs/programs_", input_dates[1], ".rds")) %>% left_join(kods, by = c("Источник" = "news_source"))
   dat %<>% mutate(`Час початку програми` = ifelse(grepl("*.mp4$", Текст), substr(Текст, nchar(Текст) - 20, nchar(Текст) - 8),
                                                   substr(Текст, nchar(Текст) - 17, nchar(Текст) - 5)
   ))

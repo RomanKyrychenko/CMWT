@@ -23,7 +23,7 @@ cat(paste0("[",Sys.time(),"]"," Start target\n"))
 masiv <- get_masiv(dat)
 
 programs <- masiv %>% group_by(Дата, Источник, `Час початку програми`) %>% summarise(`Start time` = min(`Start time`), `End time` = max(`End time`))
-readr::write_rds(programs, paste0("~/context/programs_", input_dates[1], ".rds"))
+readr::write_rds(programs, paste0("workfiles/programs/programs_", input_dates[1], ".rds"))
 
 #cat(paste0("[",Sys.time(),"]"," Start topic modeling\n"))
 

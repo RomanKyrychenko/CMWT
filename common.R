@@ -245,7 +245,7 @@ evt <- function(dat, name) {
   tims <- paste0(hours, minuts, seconds)
   ts <- paste(hours, minuts, seconds, sep = ":")
   dif <- as.numeric(difftime(dat$`End time`, dat$`Start time`, units = "secs"))
-  sink(paste0("~/context/workfile/evt/markdata_", gsub(".xlsx", "", name), ".evt"))
+  sink(paste0(getwd(), "/workfiles/evt/markdata_", gsub(".xlsx", "", name), ".evt"))
   cat(paste0("% (evt-2.10|module=indanl_v3.dll|agent=2.00-r2013.37|time=1412241926) 
              { ", nrow(dat), ":\r\n"))
   cat(paste(paste0("(", dats, ": ", dat$ID, ": ", tims, ": ", dif, ' ["', dat$Источник, " ", ts, '", 256, 4] ), ', dif, ";"), collapse = ",\r\n"))
