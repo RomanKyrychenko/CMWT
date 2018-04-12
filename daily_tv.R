@@ -16,7 +16,7 @@ if (lubridate::wday(input_dates) == 1) {
 
 cat(paste0("[",Sys.time(),"]"," Start download file list\n"))
 
-dat <- context_data(input_dates)
+dat <- context_data(input_dates:(Sys.Date()))
 
 cat(paste0("[",Sys.time(),"]"," Start target\n"))
 
@@ -48,7 +48,7 @@ cat(paste0("[",Sys.time(),"]", " Writing xlsx\n"))
 
 masiv$Текст <- substr(masiv$Текст, 1, 32000)
 
-fileXls <- paste0("~/context/workfile/tv_daily/tv_", input_dates[length(input_dates)], ".xlsx")
+fileXls <- paste0("~/CMWT/workfile/tv_daily/tv_", input_dates[length(input_dates)], ".xlsx")
 
 wb <- openxlsx::createWorkbook()
 openxlsx::addWorksheet(wb, "tv")

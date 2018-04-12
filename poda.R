@@ -5,19 +5,7 @@ source("topic.R")
 suppressPackageStartupMessages(library(gmailr))
 #Sys.sleep(3600)
 
-'Usage:
-zaporozhets.R [-s <start> -e <end> -evt <evt>]
-
-Options:
--s Start time [default: Sys.Date()-1]
--e End time [default: Sys.Date()-1]
--evt Make evt file [default: 1]
-
-]' -> doc
-
-opts <- docopt(doc)
-
-input_dates <- eval(parse(text = opts$s))
+input_dates <- Sys.Date()-1
 
 if(lubridate::wday(input_dates)==1) {
   input_dates <- as.Date((input_dates-2):input_dates, "1970-01-01")
@@ -42,7 +30,7 @@ print(paste("Writing xlsx",Sys.time()))
 masiv$Текст <- substr(masiv$Текст, 1, 32000)
 
 #writexl::write_xlsx(masiv,paste0("~/context/tv_",input_dates,".xlsx"))
-fileXls <- paste0("~/context/workfile/tv_daily/tv_", input_dates[length(input_dates)], ".xlsx")
+fileXls <- paste0(getwd(),"/workfile/tv_daily/tv_", input_dates[length(input_dates)], ".xlsx")
 
 wb <- openxlsx::createWorkbook()
 openxlsx::addWorksheet(wb, "tv")

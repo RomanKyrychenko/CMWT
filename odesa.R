@@ -95,7 +95,7 @@ masiv$Текст <- substr(masiv$Текст,1,32766)
 
 #masiv <- masiv %>% filter(Дата >= input_dates)
 
-fileXls <- paste0("~/context/workfile/odesa/odesa_tv_", input_dates[1], " - ", input_dates[length(input_dates)], ".xlsx")
+fileXls <- paste0(getwd(), "/workfile/odesa/odesa_tv_", input_dates[1], " - ", input_dates[length(input_dates)], ".xlsx")
 wb <- openxlsx::createWorkbook()
 openxlsx::addWorksheet(wb, "tv")
 
