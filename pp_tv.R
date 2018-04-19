@@ -30,7 +30,7 @@ dat %<>% bind_rows(programs)
 
 
 cat(paste0("[",Sys.time(),"]"," Writing evt\n"))
-evt(dat, input_dates[length(input_dates)])
+evt(dat, "pp")
 
 cat("Press return, if IA is ready\n")
 dali <- readLines("stdin", n = 1)

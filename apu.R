@@ -52,16 +52,27 @@ openxlsx::saveWorkbook(wb,file = fileXls,overwrite = T)
 
 #readr::write_excel_csv(masiv,"~/context/tv_08_10-12-2017.csv")
 
-suppressPackageStartupMessages(library(gmailr))
+#suppressPackageStartupMessages(library(gmailr))
 
 #use_secret_file("~/context/client_secret_780645875644-m1kk5tro7vs3mhuum8m4ulcfo1vfvl5d.apps.googleusercontent.com (1).json")
-gmail_auth(scope = 'full', secret_file = "~/context/client_secret_780645875644-m1kk5tro7vs3mhuum8m4ulcfo1vfvl5d.apps.googleusercontent.com (1).json")
+#gmail_auth(scope = 'full', secret_file = "~/context/client_secret_780645875644-m1kk5tro7vs3mhuum8m4ulcfo1vfvl5d.apps.googleusercontent.com (1).json")
 
-test_email <- mime(
-  To = "analitik.apu@gmail.com",
-  From = "kirichenko17roman@gmail.com",
-  Subject = paste("Context",input_dates[length(input_dates)]),
-  body = paste("Context",input_dates[length(input_dates)])) %>% 
-  attach_file(paste0("~/context/workfile/tv_daily/tv_",input_dates[length(input_dates)],".xlsx")) %>% 
-  attach_file(paste0("~/context/workfile/tv_daily/tv_",input_dates[length(input_dates)],".xlsx"))
-send_message(test_email)
+#test_email <- mime(
+#  To = "analitik.apu@gmail.com",
+#  From = "kirichenko17roman@gmail.com",
+#  Subject = paste("Context",input_dates[length(input_dates)]),
+#  body = paste("Context",input_dates[length(input_dates)])) %>% 
+#  attach_file(paste0("~/context/workfile/tv_daily/tv_",input_dates[length(input_dates)],".xlsx")) %>% 
+#  attach_file(paste0("~/context/workfile/tv_daily/tv_",input_dates[length(input_dates)],".xlsx"))
+#send_message(test_email)
+
+send.mail(from = "Roman Kyrychenko<roman.kyrychenko@corestone.expert>",
+          to = c("kirichenko17roman@gmail.com", "analitik.apu@gmail.com"),
+          #replyTo = c("Reply to someone else <someone.else@gmail.com>"),
+          html = F,encoding = "utf-8", #inline = T,
+          subject = paste("Context",input_dates[length(input_dates)]),
+          body = paste("Context",input_dates[length(input_dates)]),
+          attach.files = c(paste0("~/CMWT/workfiles/tv_daily/tv_",input_dates[length(input_dates)],".xlsx")),
+          smtp = list(host.name = "smtp.openxchange.eu", port = 587, user.name = "roman.kyrychenko@corestone.expert", passwd = "21](,r:==P"),
+          authenticate = TRUE,
+          send = TRUE)

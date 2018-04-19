@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-source("~/context/common.R")
+source("~/CMWT/common.R")
 
 w <- list.files("workfiles/pp_tv/final/", pattern = paste0("w",week(Sys.Date())-1), full.names = T)
 

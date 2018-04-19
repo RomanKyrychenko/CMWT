@@ -2,7 +2,7 @@
 
 source("~/CMWT/common.R")
 source("topic.R")
-suppressPackageStartupMessages(library(gmailr))
+suppressPackageStartupMessages(library(mailR))
 
 "Usage:\n  zaporozhets.R [-s <start> -e <end> -evt <evt>]\n\nOptions:\n  -s Start time [default: Sys.Date()-1]\n  -e End time [default: Sys.Date()-1]\n  -evt Make evt file [default: 1]\n\n]" -> doc
 
@@ -16,7 +16,7 @@ if (lubridate::wday(input_dates) == 1) {
 
 cat(paste0("[",Sys.time(),"]"," Start download file list\n"))
 
-dat <- context_data(input_dates:(Sys.Date()))
+dat <- context_data(input_dates:(Sys.Date()-1))
 
 cat(paste0("[",Sys.time(),"]"," Start target\n"))
 
@@ -48,7 +48,7 @@ cat(paste0("[",Sys.time(),"]", " Writing xlsx\n"))
 
 masiv$Текст <- substr(masiv$Текст, 1, 32000)
 
-fileXls <- paste0("~/CMWT/workfile/tv_daily/tv_", input_dates[length(input_dates)], ".xlsx")
+fileXls <- paste0("~/CMWT/workfiles/tv_daily/tv_", input_dates[length(input_dates)], ".xlsx")
 
 wb <- openxlsx::createWorkbook()
 openxlsx::addWorksheet(wb, "tv")
@@ -57,22 +57,33 @@ openxlsx::writeDataTable(wb, "tv", masiv, withFilter = F)
 openxlsx::setColWidths(wb, "tv", c(1:139), widths = 8.43, hidden = c(rep(F, 6), rep(T, 129), F, F, F, F), ignoreMergedCells = FALSE)
 openxlsx::saveWorkbook(wb, file = fileXls, overwrite = T)
 
-gmail_auth(scope = "full", secret_file = "~/context/client_secret_780645875644-m1kk5tro7vs3mhuum8m4ulcfo1vfvl5d.apps.googleusercontent.com (1).json")
+#gmail_auth(scope = "full", secret_file = "~/context/client_secret_780645875644-m1kk5tro7vs3mhuum8m4ulcfo1vfvl5d.apps.googleusercontent.com (1).json")
 
 ml <- c("victoriya.poda@corestone.expert", "dovhoshyia.t@gmail.com", "dmytro.tkalich@corestone.expert", "bogdan.khytryk@corestone.expert", "yaroslawbozhkoo@gmail.com",    "bogdanfeschenko@gmail.com",    "baskakov.j@gmail.com",    "zybbygame@gmail.com")
 
-test_email <- map(ml, function(x) mime(
-  To = x,
-  # To = "iryna.zaporozhets@corestone.expert",
-  From = "kirichenko17roman@gmail.com",
-  Subject = paste("Context & Markdata", input_dates[length(input_dates)]),
-  body = paste("Дані за", input_dates[length(input_dates)])
-) %>%
-  attach_file(fileXls) %>%
-  attach_file(fileXls))
+#test_email <- map(ml, function(x) mime(
+#  To = x,
+#  # To = "iryna.zaporozhets@corestone.expert",
+#  From = "kirichenko17roman@gmail.com",
+#  Subject = paste("Context & Markdata", input_dates[length(input_dates)]),
+#  body = paste("Дані за", input_dates[length(input_dates)])
+#) %>%
+#  attach_file(fileXls) %>%
+#  attach_file(fileXls))
+#
+#a <- capture.output({  
+#  map(test_email, send_message)
+#})
 
-a <- capture.output({  
-  map(test_email, send_message)
-})
+send.mail(from = "Roman Kyrychenko<roman.kyrychenko@corestone.expert>",
+          to = c("kirichenko17roman@gmail.com", ml),
+          #replyTo = c("Reply to someone else <someone.else@gmail.com>"),
+          html = F,encoding = "utf-8", #inline = T,
+          subject = paste("Context", input_dates[length(input_dates)]),
+          body = paste("Дані за", input_dates[length(input_dates)]),
+          attach.files = c(fileXls),
+          smtp = list(host.name = "smtp.openxchange.eu", port = 587, user.name = "roman.kyrychenko@corestone.expert", passwd = "21](,r:==P"),
+          authenticate = TRUE,
+          send = TRUE)
 
 cat(paste0("[",Sys.time(),"]", " Ready!\n"))

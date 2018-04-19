@@ -1,5 +1,7 @@
 setwd("~/CMWT/")
 
+source("~/CMWT/common.R")
+
 invisible(Sys.setlocale(locale = "UK_ua"))
 
 options("openxlsx.dateFormat" = "dd.mm.yyyy")

@@ -1,6 +1,7 @@
 
 source("common.R")
 require(ggplot2)
+require(stringr)
 
 nc <- c("CHANNEL 112", "NEWS ONE", "CHANNEL Z(ZIK)", "PRIAMYI", "5 CHANNEL", "24 CHANNEL", "ESPRESO TV")
 
@@ -9,9 +10,9 @@ cdt <- xlsx::read.xlsx(ptt, sheetIndex = 1) %>% as_tibble() %>% mutate_all(as.ch
 
 pt <- fs::dir_info("~/Downloads/") %>% arrange(desc(modification_time)) %>% filter(str_detect(path, "Каналы  day") & !str_detect(path, "\\$")) %>% pull(path) %>% first()
 
-cd <- map(1:4, function(x) xlsx::read.xlsx(pt, sheetIndex = x) %>% as_tibble() %>% mutate_all(as.character))
+cd <- map(1:3, function(x) xlsx::read.xlsx(pt, sheetIndex = x) %>% as_tibble() %>% mutate_all(as.character))
 
-day <- map_chr(1:4, function(x) cd[[x]][[1]][2]) %>% dmy
+day <- map_chr(1:3, function(x) cd[[x]][[1]][2]) %>% dmy
 
 #names(cd) <- cd %>% slice(1) %>% flatten_chr()
 
@@ -31,7 +32,7 @@ kyiv_all <- function(mas) {
   list(all, kyiv)
 }
 
-mas <- map(1:4, function(x) kyiv_all(cd[[x]]))
+mas <- map(1:3, function(x) kyiv_all(cd[[x]]))
 
 create_plot <- function(all, name = "all") {
   l = -1:nrow(all)+1
@@ -40,7 +41,7 @@ create_plot <- function(all, name = "all") {
   rat <- all[all$X. %in% nc,] %>% arrange(desc(`NA.`)) %>% slice(1) %>% pull(1) 
   
   rch <- all[all$X. %in% nc,] %>% arrange(desc(`X03.00.00...27.00.00.x`)) %>% slice(1) %>% pull(1) 
-  rch_k <- round((all[all$X. %in% nc,] %>% arrange(desc(`X03.00.00...27.00.00.x`)) %>% slice(1) %>% pull(2)) / 1000000, ifelse(name == "all", 2, 3)) %>% format(decimal.mark = ",")
+  rch_k <- round((all[all$X. %in% nc,] %>% arrange(desc(`X03.00.00...27.00.00.x`)) %>% slice(1) %>% pull(2)) / 1000000, ifelse(str_detect(name,"all"), 2, 3)) %>% format(decimal.mark = ",")
   
   rat <- case_when(rat == "CHANNEL 112" ~ "112 канал",
                    rat == "NEWS ONE" ~ "News One",
@@ -58,7 +59,7 @@ create_plot <- function(all, name = "all") {
                    rch == "24 CHANNEL" ~ "24 канал",
                    rch == "ESPRESO TV" ~ "Еспресо ТВ")
   
-  cairo_pdf(paste0("plot_", name, ".pdf"), width = 11, height = 11)
+  cairo_pdf(paste0("workfiles/tv_channels/plots/plot_", name, ".pdf"), width = 11, height = 11)
   print(ggplot() + 
           geom_rect(aes(xmin = 0, xmax = 10.2, ymin = max(l)-1, ymax = max(l)+2), fill = "#DCE6F1", color = NA) +
           geom_text(aes(x=5.1,y=max(l)+1.5, label = "Аудиторія 18+, вся Україна"), fontface = "bold", family = "PT Sans") +
@@ -111,5 +112,5 @@ kyiv2 <- create_plot(mas[[2]][[2]], "kyiv2")
 all3 <- create_plot(mas[[3]][[1]], "all3")
 kyiv3 <- create_plot(mas[[3]][[2]], "kyiv3")
 
-all4 <- create_plot(mas[[4]][[1]], "all4")
-kyiv4 <- create_plot(mas[[4]][[2]], "kyiv4")
+#all4 <- create_plot(mas[[4]][[1]], "all4")
+#kyiv4 <- create_plot(mas[[4]][[2]], "kyiv4")
