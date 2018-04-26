@@ -22,14 +22,16 @@ masiv <- get_masiv(dat)
 
 cat(paste("Start topic modeling:", Sys.time()))
 
-masiv <- masiv %>% bind_cols(train_lda(masiv$Текст,masiv$Заголовок,nrow(masiv)/4)[3:4])
+osr <- invisible(capture.output({
+  masiv <- masiv %>% bind_cols(train_lda(masiv$Текст,masiv$Заголовок,nrow(masiv)/4)[3:4])
+}))
 
 print(paste("Writing xlsx",Sys.time()))
 
 masiv$Текст <- substr(masiv$Текст, 1, 32000)
 
 #writexl::write_xlsx(masiv,paste0("~/context/tv_",input_dates,".xlsx"))
-fileXls <- paste0(getwd(),"/workfiles/tv_daily/tv_", input_dates[length(input_dates)], ".xlsx")
+fileXls <- paste0(getwd(), "/workfiles/tv_daily/tv_", input_dates[length(input_dates)], ".xlsx")
 
 wb <- openxlsx::createWorkbook()
 openxlsx::addWorksheet(wb, "tv")
@@ -51,13 +53,15 @@ openxlsx::saveWorkbook(wb,file = fileXls,overwrite = T)
 #  attach_file(paste0("~/context/workfile/tv_daily/tv_",input_dates[length(input_dates)],".xlsx"))
 #send_message(test_email)
 
+suppressPackageStartupMessages(library(mailR))
+
 send.mail(from = "Roman Kyrychenko<roman.kyrychenko@corestone.expert>",
          to = c("kirichenko17roman@gmail.com", "victoriya.poda@corestone.expert"),
          #replyTo = c("Reply to someone else <someone.else@gmail.com>"),
          html = F,encoding = "utf-8", #inline = T,
          subject = paste("Context",input_dates[length(input_dates)]),
          body = paste("Context",input_dates[length(input_dates)]),
-         attach.files = c(paste0("~/CMWT/workfiles/tv_daily/tv_",input_dates[length(input_dates)],".xlsx")),
+         attach.files = c(fileXls),
          smtp = list(host.name = "smtp.openxchange.eu", port = 587, user.name = "roman.kyrychenko@corestone.expert", passwd = "21](,r:==P"),
          authenticate = TRUE,
          send = TRUE)

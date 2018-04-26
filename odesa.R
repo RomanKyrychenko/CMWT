@@ -1,8 +1,8 @@
 #!/usr/bin/env Rscript
-source("~/context/common.R")
-source("~/context/topic.R")
+source("~/CMWT/common.R")
+source("~/CMWT/topic.R")
 
-suppressPackageStartupMessages(library(gmailr))
+suppressPackageStartupMessages(library(mailR))
 
 'Usage:
 odesa.R [-s <start> -e <end> -evt <evt>]
@@ -95,28 +95,39 @@ masiv$Текст <- substr(masiv$Текст,1,32766)
 
 #masiv <- masiv %>% filter(Дата >= input_dates)
 
-fileXls <- paste0(getwd(), "/workfile/odesa/odesa_tv_", input_dates[1], " - ", input_dates[length(input_dates)], ".xlsx")
+fileXls <- paste0(getwd(), "/workfiles/odesa/odesa_tv_", input_dates[1], " - ", input_dates[length(input_dates)], ".xlsx")
 wb <- openxlsx::createWorkbook()
 openxlsx::addWorksheet(wb, "tv")
 
 openxlsx::writeDataTable(wb, "tv", masiv, withFilter = F)
 openxlsx::saveWorkbook(wb, file = fileXls, overwrite = T)
 
-gmail_auth(scope = "full", secret_file = "~/context/client_secret_780645875644-m1kk5tro7vs3mhuum8m4ulcfo1vfvl5d.apps.googleusercontent.com (1).json")
+#gmail_auth(scope = "full", secret_file = "~/context/client_secret_780645875644-m1kk5tro7vs3mhuum8m4ulcfo1vfvl5d.apps.googleusercontent.com (1).json")
 
-a <- capture.output({
-  test_email <- mime(
-    To = "dovhoshyia.t@gmail.com", 
-    Bcc = "baskakov.j@gmail.com",
-    # To = "iryna.zaporozhets@corestone.expert",
-    From = "kirichenko17roman@gmail.com",
-    Subject = paste0("Odesa: Context & Markdata ", input_dates[1], " - ", input_dates[length(input_dates)]),
-    body = paste0("Дані за ", input_dates[1], " - ", input_dates[length(input_dates)])
-  ) %>%
-    attach_file(fileXls) %>%
-    attach_file(fileXls)
-  
-  send_message(test_email)
-})
+send.mail(from = "Roman Kyrychenko<roman.kyrychenko@corestone.expert>",
+          to = c("kirichenko17roman@gmail.com", "dovhoshyia.t@gmail.com", "baskakov.j@gmail.com"),
+          #replyTo = c("Reply to someone else <someone.else@gmail.com>"),
+          html = F,encoding = "utf-8", #inline = T,
+          subject = paste0("Odesa: Context ", input_dates[1], " - ", input_dates[length(input_dates)]),
+          body = paste0("Дані за ", input_dates[1], " - ", input_dates[length(input_dates)]),
+          attach.files = c(fileXls),
+          smtp = list(host.name = "smtp.openxchange.eu", port = 587, user.name = "roman.kyrychenko@corestone.expert", passwd = "21](,r:==P"),
+          authenticate = TRUE,
+          send = TRUE)
+
+#a <- capture.output({
+#  test_email <- mime(
+#    To = "dovhoshyia.t@gmail.com", 
+#    Bcc = "baskakov.j@gmail.com",
+#    # To = "iryna.zaporozhets@corestone.expert",
+#    From = "kirichenko17roman@gmail.com",
+#    Subject = paste0("Odesa: Context ", input_dates[1], " - ", input_dates[length(input_dates)]),
+#    body = paste0("Дані за ", input_dates[1], " - ", input_dates[length(input_dates)])
+#  ) %>%
+#    attach_file(fileXls) %>%
+#    attach_file(fileXls)
+#  
+#  send_message(test_email)
+#})
 
 cat(paste0("[",Sys.time(),"]", " Ready!\n"))

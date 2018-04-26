@@ -66,6 +66,8 @@ openxlsx::saveWorkbook(wb,file = fileXls,overwrite = T)
 #  attach_file(paste0("~/context/workfile/tv_daily/tv_",input_dates[length(input_dates)],".xlsx"))
 #send_message(test_email)
 
+suppressPackageStartupMessages(library(mailR))
+
 send.mail(from = "Roman Kyrychenko<roman.kyrychenko@corestone.expert>",
           to = c("kirichenko17roman@gmail.com", "analitik.apu@gmail.com"),
           #replyTo = c("Reply to someone else <someone.else@gmail.com>"),
