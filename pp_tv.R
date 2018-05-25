@@ -14,20 +14,19 @@ if (lubridate::wday(input_dates) == 1) {
 
 dat <- pp %>% left_join(kods, by = c("Источник" = "news_source"))
 if (!is.POSIXct(dat$`Start time`)) {
-  dat$`Start time` <- as.POSIXct(lubridate::hms(dat$`Start time`), origin = "1969-12-31 21:00:00", tz = "Europe/Kiev")
-  dat$`End time` <- as.POSIXct(lubridate::hms(dat$`End time`), origin = "1969-12-31 21:00:00", tz = "Europe/Kiev")
+  dat$`Start time` <- as.POSIXct(lubridate::hms(dat$`Start time`), origin = paste(dat$Дата, "00:00:00"), tz = "Europe/Kiev") - 3600*3
+  dat$`End time` <- as.POSIXct(lubridate::hms(dat$`End time`), origin = paste(dat$Дата, "00:00:00"), tz = "Europe/Kiev") - 3600*3
 }
 
 programs <- readr::read_rds(paste0("workfiles/programs/programs_", input_dates[1], ".rds")) %>% left_join(kods, by = c("Источник" = "news_source"))
-dat %<>% mutate(`Час початку програми` = ifelse(grepl("*.mp4$", Текст), substr(Текст, nchar(Текст) - 20, nchar(Текст) - 8),
-                                                substr(Текст, nchar(Текст) - 17, nchar(Текст) - 5)
-))
-dat$`Час початку програми` <- ymd_hm(dat$`Час початку програми`, tz = "Europe/Kiev")
+
+dat$`Час початку програми` <- as.POSIXct(sapply(1:nrow(dat), function(y) programs$`Час початку програми`[sapply(1:nrow(programs), function(x) between(dat$`Start time`[y], programs$`Start time`[x], programs$`End time`[x]) & dat$ID[y] == programs$ID[x])][1]), tz = "Europe/Kiev", origin = "1970-01-01")
+
 dat %<>% select(Дата, Источник, `Час початку програми`, `Start time`, `End time`, ID)
+
 dat$Дата <- as.Date(dat$Дата)
 programs %<>% semi_join(dat, by = c("Дата", "ID", "Час початку програми"))
 dat %<>% bind_rows(programs)
-
 
 cat(paste0("[",Sys.time(),"]"," Writing evt\n"))
 evt(dat, "pp")
@@ -41,16 +40,7 @@ ia <- readxl::read_excel(pt, sheet = "Reach & Frequency")[-c(1:3), -1] %>% mutat
   Rch = Rch * 100
 )
 
-#pp <- pp %>% mutate(
-#  program_datetime = ifelse(grepl("*.mp4$", Текст), substr(Текст, nchar(Текст) - 20, nchar(Текст) - 8), substr(Текст, nchar(Текст) - 17, nchar(Текст) - 5)
-#))
-
-pp <- pp %>% mutate(
-  program_datetime = Текст %>% str_remove_all("1+1") %>%
-    str_remove_all("[[:alpha:]]") %>% str_remove_all("\\\r") %>% 
-    str_remove_all("\\\n") %>% 
-    str_remove_all(".*\\=") %>% str_remove_all("[[:punct:]]")  %>% str_sub(1, 12) %>% ymd_hm(tz = "Europe/Kiev")
-) 
+pp$program_datetime <- dat$`Час початку програми`[1:nrow(pp2)]
 
 pp2$Охват <- pp$Охват <- ia$Rch[1:nrow(pp)]
 
@@ -66,7 +56,7 @@ ia %<>% mutate(
     Channel == "UA:PERSHIY" ~ "Перший"
   )
 ) %>% mutate(
-  program_datetime = ymd_hms(paste(dmy(ia$Date), strftime(round_date(ia$Time, "5 minutes"), format = "%H:%M:%S", tz = "UTC")), tz = "EET")
+  program_datetime = dat$`Час початку програми`[(nrow(pp)+1):nrow(dat)]
 ) %>% rename(`Охоплення випуску в цілому (контактів)` = Rch)
 
 #pp$program_datetime <- ymd_hm(pp$program_datetime, tz = "Europe/Kiev")

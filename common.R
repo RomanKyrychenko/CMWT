@@ -20,11 +20,7 @@ suppressPackageStartupMessages({
   require(clisymbols)
 })
 
-url <- "ftp:/91.218.214.110"
-userpwd <- "corestone:GTYJgkfcn2190"
-
-#url <- "ftp:/export.medisum.com.ua"
-#userpwd <- "corestone_ro:Ahcuwahr2chee0vooy"
+source("pass.R")
 
 cleanFun <- function(htmlString) str_remove_all(htmlString, "<.*?>")
 
@@ -67,6 +63,7 @@ context_data <- function(input_dates) {
     filter(!is.na(ID)) %>%
     arrange(program_datetime, news_source) %>%
     mutate(
+      duration = as.numeric(duration),
       news_datetime = as.POSIXct(as.numeric(news_datetime), origin = "1970-01-01", tz = "Europe/Kiev"),
       program_datetime = as.POSIXct(as.numeric(program_datetime), origin = "1970-01-01", tz = "Europe/Kiev"),
       news_text = cleanFun(news_text),
@@ -76,7 +73,7 @@ context_data <- function(input_dates) {
       news_text = tolower(news_text)
     ) %>%
     distinct() %>%
-    filter(mass_media_type == 1 & (as.Date(news_datetime) %in% input_dates)) %>%
+    filter(mass_media_type == 1 & (as.Date(news_datetime, tz = "Europe/Kiev") %in% input_dates)) %>%
     group_by(news_source, program_datetime) %>%
     mutate(
       number = number,

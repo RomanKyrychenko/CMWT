@@ -42,7 +42,6 @@ files <- files %>%
   mutate(Тема = paste0(Тема, " (", text,")"))
 
 files$Дата <- as.Date(files$Дата)
-#writexl::write_xlsx(files, "pp_tv_week4.xlsx")
 
 fileXls <- paste0("workfiles/pp_tv/weekly/pp_tv_w",median(week(files$Дата)),".xlsx")
 
