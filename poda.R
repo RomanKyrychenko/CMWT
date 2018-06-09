@@ -20,7 +20,7 @@ masiv <- get_masiv(dat)
 cat(paste("Start topic modeling:", Sys.time()))
 
 osr <- invisible(capture.output({
-  masiv <- masiv %>% bind_cols(train_lda(masiv$Текст,masiv$Заголовок,nrow(masiv)/4)[3:4])
+  masiv <- masiv %>% bind_cols(train_lda(masiv$Текст, masiv$Заголовок, nrow(masiv) / 4)[3:4])
 }))
 
 print(paste("Writing xlsx",Sys.time()))
@@ -40,7 +40,7 @@ suppressPackageStartupMessages(library(mailR))
 
 send.mail(from = "Roman Kyrychenko<roman.kyrychenko@corestone.expert>",
          to = c("kirichenko17roman@gmail.com", "victoriya.poda@corestone.expert"),
-         html = F,encoding = "utf-8", #inline = T,
+         html = F,encoding = "utf-8", 
          subject = paste("Context",input_dates[length(input_dates)]),
          body = paste("Context",input_dates[length(input_dates)]),
          attach.files = c(fileXls),

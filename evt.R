@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-source("~/context/common.R")
+source("~/CMWT/common.R")
 
 "Usage:\nevt.R [-f <file> -s <sheet>]\n\nOptions:\n  -f Start time\n  -s End time [default: 1]\n\n]" -> doc
 
@@ -11,8 +11,6 @@ input_dates <- Sys.Date() - 1
 if (lubridate::wday(input_dates) == 1) {
   input_dates <- as.Date((input_dates - 2):input_dates, "1970-01-01")
 }
-
-# dat <- readxl::read_excel("~/Downloads/APU_TV.xlsx", sheet = 1)
 
 dat <- readxl::read_excel(opts$f, sheet = eval(parse(text = opts$s)))
 dat <- dat %>% left_join(kods, by = c("Источник" = "news_source"))
