@@ -4,7 +4,7 @@ source("~/CMWT/common.R")
 
 ptu <- fs::dir_info("~/Downloads/") %>% arrange(desc(modification_time)) %>% filter(str_detect(path, "APU") & !str_detect(path, "\\$") & str_detect(path, "\\.xls")) %>% slice(1) %>% pull(path)
 
-pp <- pp2 <- readxl::read_excel(ptu, sheet = "Данные")
+pp <- pp2 <- readxl::read_excel(ptu, sheet = "Данные") %>% filter(!is.na(Дата))
 
 input_dates <- Sys.Date() - 1
 
@@ -14,8 +14,12 @@ if (lubridate::wday(input_dates) == 1) {
 
 dat <- pp %>% left_join(kods, by = c("Источник" = "news_source"))
 if (!is.POSIXct(dat$`Start time`)) {
-  dat$`Start time` <- as.POSIXct(lubridate::hms(dat$`Start time`), origin = paste(dat$Дата, "00:00:00"), tz = "Europe/Kiev") - 3600*3
-  dat$`End time` <- as.POSIXct(lubridate::hms(dat$`End time`), origin = paste(dat$Дата, "00:00:00"), tz = "Europe/Kiev") - 3600*3
+  dat$`Start time` <- if_else(str_detect(dat$`Start time`,":"),
+                              as.POSIXct(lubridate::hms(dat$`Start time`), origin = paste(dat$Дата, "00:00:00"), tz = "Europe/Kiev"), 
+                              as.POSIXct(as.numeric(dat$`Start time`) * 24* 3600, origin = paste(dat$Дата, "00:00:00"), tz = "Europe/Kiev")) - 3600*3
+  dat$`End time` <- if_else(str_detect(dat$`End time`,":"),
+                            as.POSIXct(lubridate::hms(dat$`End time`), origin = paste(dat$Дата, "00:00:00"), tz = "Europe/Kiev"), 
+                            as.POSIXct(as.numeric(dat$`End time`) * 24* 3600, origin = paste(dat$Дата, "00:00:00"), tz = "Europe/Kiev")) - 3600*3
 }
 
 programs <- readr::read_rds(paste0("workfiles/programs/programs_", input_dates[1], ".rds")) %>% left_join(kods, by = c("Источник" = "news_source"))
