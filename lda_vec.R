@@ -14,20 +14,6 @@ suppressPackageStartupMessages({
 
 # devtools::install_version("elastic", version = "0.7.8", repos = "http://cran.us.r-project.org")
 
-#q <- '{
-#"query": {
-#"bool": {
-#"must": [
-#{
-#  "exists": {
-#  "field": "target"
-#  }
-#}
-#]
-#}
-#}
-#}'
-
 csv_to_json <- function(dat, pretty = F, na = "null", raw = "mongo", digits = 3, force = "unclass") {
   dat_to_json <- jsonlite::toJSON(dat, pretty = pretty, na = "null", raw = raw, digits = digits, force = force)
   substr(dat_to_json, start = 2, nchar(dat_to_json) - 1)
@@ -83,7 +69,7 @@ cat(paste(symbol$tick, "Start download:", Sys.time()))
 
 res <- Search(
   index = paste0("urls_", result_date), #body = q,
-  type = "news", source = paste("title", "fullhtml", "dtpost", sep = ","), scroll = "1m"
+  type = "news", source = paste("title", "fullhtml", "dtpost", "domain", sep = ","), scroll = "1m"
 )
 out <- res$hits$hits
 hits <- 1
@@ -97,10 +83,8 @@ while (hits != 0) {
 
 out_df <- map_dfr(out, flatten_df) %>% mutate(
   title = title %>% str_replace_all("[:punct:]", " ") %>% str_squish()
-)
-
-out_df <- out_df %>% filter(
-  !(str_detect(fullhtml, "(ë|ž|İ|š|η|μ)") | (fullhtml == "") | (fullhtml == "No fullhtml") | nchar(fullhtml) < 30)
+) %>% filter(
+  !(str_detect(fullhtml, "(ë|ž|İ|š|η|μ|o|ö)") | (fullhtml == "") | (fullhtml == "No fullhtml") | nchar(fullhtml) < 30)
 ) 
 
 cat(paste(symbol$tick, "Downloaded", Sys.time()))
