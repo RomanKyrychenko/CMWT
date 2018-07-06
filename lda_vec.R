@@ -12,8 +12,6 @@ suppressPackageStartupMessages({
   require(R.utils)
 })
 
-# devtools::install_version("elastic", version = "0.7.8", repos = "http://cran.us.r-project.org")
-
 csv_to_json <- function(dat, pretty = F, na = "null", raw = "mongo", digits = 3, force = "unclass") {
   dat_to_json <- jsonlite::toJSON(dat, pretty = pretty, na = "null", raw = raw, digits = digits, force = force)
   substr(dat_to_json, start = 2, nchar(dat_to_json) - 1)
@@ -24,7 +22,7 @@ result_date <- gsub("-", "", as.character(Sys.Date() - 1))
 train_lda <- function(tem, k) {
   it_train <- itoken(
     text.clean(tem$fullhtml), preprocessor = str_to_lower,
-    ids = tem$`_id`, progressbar = F
+    ids = tem$`_id`, progressbar = T
   )
   vocab <- create_vocabulary(it_train, stopwords = stopwords)
   
@@ -63,13 +61,13 @@ train_lda <- function(tem, k) {
 
 cat(paste(symbol$tick, "Start connection:", Sys.time()))
 
-invisible(connect(es_host = es_host, es_port = es_port))
+invisible(connect(es_host = es_host, es_port = es_port, es_user = es_user, es_pwd = es_pwd))
 
 cat(paste(symbol$tick, "Start download:", Sys.time()))
 
 res <- Search(
-  index = paste0("urls_", result_date), #body = q,
-  type = "news", source = paste("title", "fullhtml", "dtpost", "domain", sep = ","), scroll = "1m"
+  index = paste0("urls_", result_date), config = httr::add_headers("Content-Type" = "application/json"), #body = q,
+  type = "news", source = paste("title", "fullhtml", "dtpost", "domain", sep = ","), time_scroll = "1m"
 )
 out <- res$hits$hits
 hits <- 1
@@ -102,7 +100,7 @@ out_df2 <- bind_rows(out_df2, train_lda(out_df %>% anti_join(out_df2, by = "_id"
 
 cat(paste(symbol$tick, "Trained", Sys.time()))
 
-names(out_df2) <- c("_index", "_type", "_id", "_score", "fullhtml", "dtpost", "title", "theme_quality", "theme")
+names(out_df2) <- c("_index", "_type", "_id", "_score", "fullhtml", "domain", "dtpost", "title", "theme_quality", "theme")
 saveRDS(out_df2, "out_df2.rds")
 
 cat(paste(symbol$tick, "Start writing", Sys.time()))

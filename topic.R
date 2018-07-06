@@ -167,7 +167,8 @@ stopwords = unique(c("div", "href", "rel", "com", "relnofollow", "про", "чт
                      "international", "financeua", "news", "people", "як", letters, stopwords("english"), stopwords("russian"), stopwords("german"), stopwords("SMART")))
 
 stopwords <- stopwords[nchar(stopwords) < 20]
-stopwords <- str_c("\\b", stopwords, "\\b", collapse="|")
+stopwords <- tm::stemDocument(stopwords, "russian")
+#stopwords <- str_c("\\b", stopwords, "\\b", collapse="|")
 
 #paste0("( ", paste(stopwords, collapse = " | "), " )")
 
@@ -180,7 +181,7 @@ text.clean = function(x) {
     str_replace_all('\\w{20,}', " ") %>% 
     str_replace_all("^\\s+|\\s+$", " ") %>% 
     str_replace_all("[:punct:]", " ") %>%
-    str_replace_all(stopwords, " ") %>%
+    #str_replace_all(stopwords, " ") %>%
     tm::stemDocument(language = "russian") %>% 
     str_squish()
 }
