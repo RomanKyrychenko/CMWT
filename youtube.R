@@ -96,8 +96,7 @@ this_is <- function(new_face, face = "https://raw.githubusercontent.com/RomanKyr
 
 this_is <- compiler::cmpfun(this_is)
 
-
-source("/home/CMWT/common.R")
+#source("/home/CMWT/common.R")
 
 result_date <- Sys.Date()
 
