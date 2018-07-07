@@ -140,7 +140,7 @@ if(!dir.exists("/home/stepanov_youtube")) {
 fn <- paste0("/home/stepanov_youtube/Stepanov_youtube_", result_date, ".xlsx")
 openxlsx::saveWorkbook(wb, file = fn, overwrite = T)
 
-py_run_file("https://raw.githubusercontent.com/RomanKyrychenko/CMWT/master/mail.py")
+py_run_file("mail.py")
 
 cat(paste0("[",Sys.time(),"]", " Ready!\n"))
 

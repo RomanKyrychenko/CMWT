@@ -6,12 +6,12 @@ import smtplib
 import sys
 from time import gmtime, strftime
 
-date = strftime("%Y-%m-%d", gmtime()
+date = strftime("%Y-%m-%d", gmtime())
 
 recipients = ['kirichenko17roman@gmail.com'] 
 
 msg = MIMEMultipart()
-msg['Subject'] = str("Stepanov") + ' '+ date)
+msg['Subject'] = "Stepanov" + " " + date
 msg['From'] = 'Roman Kyrychenko<roman.kyrychenko@corestone.expert>'
  
 msg.preamble = 'Multipart massage.\n'
@@ -19,8 +19,8 @@ msg.preamble = 'Multipart massage.\n'
 part = MIMEText("Hi, please find the attached file")
 msg.attach(part)
  
-part = MIMEApplication(open(str("/home/stepanov_youtube/Stepanov_youtube_" + date + ".xlsx"),"rb").read())
-part.add_header('Content-Disposition', 'attachment', filename = str("Stepanov_youtube_" + date + ".xlsx"))
+part = MIMEApplication(open("/home/stepanov_youtube/Stepanov_youtube_" + date + ".xlsx", "rb").read())
+part.add_header('Content-Disposition', 'attachment', filename = "Stepanov_youtube_" + date + ".xlsx")
 msg.attach(part)
  
 
