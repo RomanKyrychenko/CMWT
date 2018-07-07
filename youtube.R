@@ -7,7 +7,6 @@ suppressPackageStartupMessages({
   require(lubridate)
   require(stringr)
   require(openxlsx)
-  require(mailR)
 })
 
 options("openxlsx.dateFormat" = "dd.mm.yyyy")
