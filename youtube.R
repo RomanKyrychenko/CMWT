@@ -80,7 +80,7 @@ video_proc <- function(videos, fsp = 2) {
 
 video_proc <- compiler::cmpfun(video_proc)
 
-this_is <- function(new_face, face = "https://raw.githubusercontent.com/RomanKyrychenko/CMWT/master/Stepanov.jpg") {
+this_is <- function(new_face, face = "Stepanov.jpg") {
   tryCatch({
     picture_of_me = np_array(face_recognition$load_image_file(face), dtype = "uint8")
     my_face_encoding = np_array(face_recognition$face_encodings(picture_of_me)[[1]])
@@ -134,6 +134,9 @@ wb <- openxlsx::createWorkbook()
 openxlsx::addWorksheet(wb, "youtube")
 openxlsx::writeDataTable(wb, "youtube", rs, withFilter = F)
 openxlsx::setColWidths(wb, "youtube", c(1, 2, 5, 6), widths = 35, ignoreMergedCells = FALSE)
+if(!dir.exists("/home/stepanov_youtube")) {
+  dir.create("/home/stepanov_youtube")
+}
 fn <- paste0("/home/stepanov_youtube/Stepanov_youtube_", result_date, ".xlsx")
 openxlsx::saveWorkbook(wb, file = fn, overwrite = T)
 
